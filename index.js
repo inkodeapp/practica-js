@@ -1,6 +1,8 @@
-"use strict"
+'use strict'
 
 
-let message=1<99;
+function showMessage(a="sin texto",b){
+    alert(a+" "+b);
+}
 
-alert(message)
+showMessage("hola")
