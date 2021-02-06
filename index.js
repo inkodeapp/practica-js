@@ -139,7 +139,7 @@ switch (accionUsuario) {
   default:
     break;
 }
-*/
+
 let secuencia = ["red", "blue", "yellow", "green"];
 const ids = ["red", "blue", "yellow", "green"];
 const elementoAleatorio = Math.floor(Math.random() * ids.length);
@@ -165,3 +165,69 @@ let piramide = (cantidadDeNiveles) => {
 };
 
 piramide(5);
+
+
+let secuencia = ["red", "blue", "yellow", "green"];
+secuencia.forEach(element => {
+  console.log(element)
+});
+
+
+
+const productos = [
+  { item: "pan", precio: "$ 200", anulado: false },
+  { item: "pan", precio: "$ 150", anulado: false },
+  { item: "pan", precio: "$ 180", anulado: false },
+  { item: "pan", precio: "$ 100", anulado: false },
+  { item: "pan", precio: "$ 120", anulado: false },
+  { item: "pan", precio: "$ 105", anulado: true },
+  { item: "pan", precio: "$ 150", anulado: true },
+];
+let acumulador = 0;
+
+for (let index = 0; index < productos.length; index++) {
+  let producto = productos[index];
+  if (producto.anulado == false) {
+    nombre = producto.precio.replace("$ ", "");
+    acumulador = acumulador + parseInt(nombre);
+  }
+}
+console.log(`el total de su compra es ${acumulador}`);
+
+
+let productos = [
+  { item: "pan", precio: "$ 200", anulado: false },
+  { item: "pan", precio: "$ 150", anulado: false },
+  { item: "pan", precio: "$ 180", anulado: false },
+  { item: "pan", precio: "$ 100", anulado: false },
+  { item: "pan", precio: "$ 120", anulado: false },
+  { item: "pan", precio: "$ 105", anulado: true },
+  { item: "pan", precio: "$ 150", anulado: true },
+];
+
+let total = 0;
+
+for (let index = 0; index < productos.length; index++) {
+  let producto = productos[index];
+  if (!producto.anulado) {
+    const precio = parseInt(producto.precio.split(" ")[1]);
+    total += precio;
+  }
+}
+console.log(`el total de la compra es de ${total}`);
+
+let total = productos.filter((producto) => {
+    return !producto.anulado;
+  }).map((producto) => {
+    return parseInt(producto.precio.split(" ")[1]);
+  }).reduce((total, precio) => {
+    return total + precio;
+  });
+
+  console.log(total)*/
+
+const button = document.getElementById("press");
+
+button.addEventListener("click", () => {
+  alert("holis");
+});
