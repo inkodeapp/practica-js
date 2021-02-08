@@ -1,0 +1,120 @@
+@import url("https://fonts.googleapis.com/css?family=Lato");
+
+*,
+*:before,
+*:after {
+	margin: 0;
+	padding: 0;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0 auto;
+	background-color: #ffffff;
+	font-size: 16px;
+	font-family: "Lato", sans-serif;
+	overflow-x: hidden;
+}
+
+#products {
+	width: 100%;
+}
+
+#products .container {
+	display: block;
+	width: 80%;
+	margin: 0 auto;
+	font-size: 0;
+}
+
+#products .container .products-header {
+	font-size: 16px;
+	text-align: center;
+	margin-bottom: 3rem;
+}
+
+#products .container .products-header h2 {
+	padding: 2rem 1rem;
+	text-transform: uppercase;
+	font-family: "Franklin Gothic Medium";
+	color: #000000;
+	font-size: 1.875rem;
+	font-weight: 400;
+	letter-spacing: 0.2rem;
+	line-height: 1;
+	text-align: center;
+}
+
+#products .container .products-header p {
+	font-family: Cambria;
+	color: rgba(89, 89, 89, 1);
+	font-size: 1rem;
+	font-style: italic;
+	line-height: 1.5;
+	text-align: center;
+}
+
+#products .container .product {
+	width: 25%;
+	display: inline-block;
+	font-size: 16px;
+	text-align: center;
+	padding: 1.8rem;
+	-webkit-transform: scale(1);
+	transform: scale(1);
+	opacity: 1;
+}
+
+#products .container .product figure {
+	position: relative;
+}
+
+#products .container .product .favorito {
+	position: absolute;
+	background: white;
+    border-radius: 100%;
+    padding: 10px 5px;
+	cursor: pointer;
+	height: 45px;
+    width: 45px;
+	right: 15px;
+	top: 15px;
+}
+
+#products .container .product figure img {
+	width: 100%;
+	height: auto;
+}
+
+#products .container .product figure figcaption {
+	font-family: "Franklin Gothic Medium";
+	color: rgba(89, 89, 89, 1);
+	font-size: 0.8rem;
+	font-weight: 600;
+	letter-spacing: 0.02rem;
+	text-align: center;
+	padding: 1rem 0rem 0rem;
+	text-transform: uppercase;
+}
+
+@media only screen and (max-width: 1024px) {
+	#products .container .product {
+		width: 50%;
+		padding: 3rem;
+	}
+}
+
+@media only screen and (max-width: 768px) {
+	#products .container .product {
+		width: 50%;
+		padding: 2rem;
+	}
+}
+
+@media only screen and (max-width: 480px) {
+	#products .container .product {
+		width: 100%;
+	}
+}
+

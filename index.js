@@ -224,10 +224,43 @@ let total = productos.filter((producto) => {
     return total + precio;
   });
 
-  console.log(total)*/
+  console.log(total)
 
-const button = document.getElementById("press");
+const buttonYellow = document.getElementById("yellow");
+const buttonGreen = document.getElementById("green");
+const buttonRed = document.getElementById("red");
+const buttonBlue = document.getElementById("blue");
+let colores = [];
 
-button.addEventListener("click", () => {
-  alert("holis");
+buttonYellow.addEventListener("click", () => {
+  colores.push("yellow");
+  alert(colores);
+});
+
+buttonGreen.addEventListener("click", () => {
+  colores.push("Verde");
+  alert(colores);
+});
+
+buttonRed.addEventListener("click", () => {
+  colores.push("Rojo");
+  alert(colores);
+});
+
+buttonBlue.addEventListener("click", () => {
+  colores.push("Azul");
+  alert(colores);
+});
+*/
+
+const botones = document.querySelectorAll(".boton");
+let colores = [];
+
+botones.forEach((boton) => {
+  boton.addEventListener("click", () => {
+    if (boton.id !== "purple" && boton.id !== "orange") {
+      colores.push(boton.id);
+      alert(colores);
+    }
+  });
 });

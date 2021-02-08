@@ -1,0 +1,4 @@
+
+
+
+localStorage.setItem('favoritos',"vacio")
