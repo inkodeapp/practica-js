@@ -254,13 +254,23 @@ buttonBlue.addEventListener("click", () => {
 */
 
 const botones = document.querySelectorAll(".boton");
-let colores = [];
+let acumulador = [];
 
 botones.forEach((boton) => {
   boton.addEventListener("click", () => {
     if (boton.id !== "purple" && boton.id !== "orange") {
-      colores.push(boton.id);
-      alert(colores);
+      acumulador = localStorage.getItem("favoritos").split(",");
+      acumulador.push(boton.id);
+      alert(acumulador)
+      const c = acumulador.join(",");
+      alert(c);
+      localStorage.setItem("favoritos", c);
     }
   });
+});
+
+const resetear = document.getElementById("purple");
+
+resetear.addEventListener("click", () => {
+  localStorage.setItem("favoritos", "");
 });
