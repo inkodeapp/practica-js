@@ -67,24 +67,49 @@ const reproducirSecuencia = () => {
   console.log("reproducirSecuencia");
 };
 
-const inicializacion = () => {
-  /**
-   * Función de inicialización del juego
-   * 1) Setear todas las variables por defecto para comenzar el juego
-   * 2) Quitar todos los modales y mostrar el juego
-   * 3) Mostrar y ejecutar un contador que de comienzo a la reproducción de la secuencia
-   */
-  localStorage.removeItem("Jugador");
+const inicializacion = (nombreDelJugador) => {
+  // Función de inicialización del juego
+  //1) Setear todas las variables por defecto para comenzar el juego
+  const nombreDelUsuario = document.getElementById("nombre_usuario");
+  const vistaDeJuego = document.getElementById("juego");
+  const pantallaDeInicio = document.getElementById("inicio_juego");
+  
 
-  console.log("inicializacion");
+  //2) Quitar todos los modales y mostrar el juego
+  vistaDeJuego.setAttribute("class", "game");
+  pantallaDeInicio.setAttribute("class", "hide");
+  nombreDelUsuario.textContent = nombreDelJugador;
+
+  //3) Mostrar y ejecutar un contador que de comienzo a la reproducción de la secuencia
+  contador(3)
 };
 
 function accionModalInicio() {
   const nombreDelJugador = document.getElementById("nombre_jugador").value;
   localStorage.setItem("Jugador", nombreDelJugador);
-  document.getElementById("juego").setAttribute("class", "game");
-  document.getElementById("inicio_juego").setAttribute("class", "hide");
+  inicializacion(nombreDelJugador);
 }
 
-inicializacion();
 obtenerElementoAleatorio();
+
+const nombreDelJugador = document.getElementById("nombre_jugador");
+nombreDelJugador.addEventListener("keypress", (e) => {
+  if (e.keyCode == 13) {
+    accionModalInicio();
+  }
+});
+
+function contador(contador) {
+  const turnoTexto = document.getElementById("turno_texto");
+  let intervalo = setInterval(() => {
+    turnoTexto.textContent = contador;
+    contador--;
+    if (contador == -1) {
+      clearInterval(intervalo);
+    }
+  }, 1000);
+
+  setInterval(intervalo);
+
+
+}
