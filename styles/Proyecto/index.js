@@ -37,7 +37,7 @@ const botonesDelJuego = document.querySelectorAll(".simon-button");
  * Funciones de referencia
  */
 
-const clickBoton = () => {
+const clickBoton = (botonPresionado) => {
   /**
    * Evento click de los botones del juego
    * 1) Agregar el id que el usuario hizo click en la secuencia del usuario para validarla con la secuencia del juego
@@ -45,7 +45,26 @@ const clickBoton = () => {
    * 3) Si el click es incorrecto, game over
    * 4) Si el usuario hizo todos los clicks de la secuencia, avanzar al siguiente nivel
    */
-  console.log("clickBoton");
+  // estadoJuego.secuenciaUsuario.push(botonPresionado);
+  // estadoJuego.secuenciaJuego.push(botonPresionado);
+  // let valorfinal=estadoJuego.secuenciaUsuario.length-1
+  // if(estadoJuego.secuenciaJuego[valorfinal]==estadoJuego.secuenciaUsuario[valorfinal]){
+  //   alert("todo ok")
+  // }else{
+  //   alert("jugar de nuevo")
+  // }
+
+
+  // estadoJuego.secuenciaUsuario.forEach((boton, indice) => {
+  //   if (
+  //     estadoJuego.secuenciaJuego[indice] == estadoJuego.secuenciaUsuario[indice]
+  //   ) {
+  //     alert("ok");
+  //   } else {
+  //     alert("mal");
+  //   }
+  // });
+
 };
 
 const obtenerElementoAleatorio = () => {
@@ -73,7 +92,6 @@ const inicializacion = (nombreDelJugador) => {
   const nombreDelUsuario = document.getElementById("nombre_usuario");
   const vistaDeJuego = document.getElementById("juego");
   const pantallaDeInicio = document.getElementById("inicio_juego");
-  
 
   //2) Quitar todos los modales y mostrar el juego
   vistaDeJuego.setAttribute("class", "game");
@@ -81,7 +99,8 @@ const inicializacion = (nombreDelJugador) => {
   nombreDelUsuario.textContent = nombreDelJugador;
 
   //3) Mostrar y ejecutar un contador que de comienzo a la reproducción de la secuencia
-  contador(3)
+  contador();
+  obtenerElementoAleatorio();
 };
 
 function accionModalInicio() {
@@ -90,8 +109,6 @@ function accionModalInicio() {
   inicializacion(nombreDelJugador);
 }
 
-obtenerElementoAleatorio();
-
 const nombreDelJugador = document.getElementById("nombre_jugador");
 nombreDelJugador.addEventListener("keypress", (e) => {
   if (e.keyCode == 13) {
@@ -99,17 +116,16 @@ nombreDelJugador.addEventListener("keypress", (e) => {
   }
 });
 
-function contador(contador) {
+function contador() {
   const turnoTexto = document.getElementById("turno_texto");
   let intervalo = setInterval(() => {
-    turnoTexto.textContent = contador;
-    contador--;
-    if (contador == -1) {
+    turnoTexto.textContent = estadoJuego.segundosInicio;
+    estadoJuego.segundosInicio--;
+    if (estadoJuego.segundosInicio == -1) {
       clearInterval(intervalo);
+      turnoTexto.textContent = "";
     }
   }, 1000);
 
   setInterval(intervalo);
-
-
 }
