@@ -32,6 +32,7 @@ const estadoJuego = {
  */
 
 const botonesDelJuego = document.querySelectorAll(".simon-button");
+const nombreDelJugador = document.getElementById("nombre_jugador");
 
 /**
  * Funciones de referencia
@@ -53,8 +54,6 @@ const clickBoton = (botonPresionado) => {
   // }else{
   //   alert("jugar de nuevo")
   // }
-
-
   // estadoJuego.secuenciaUsuario.forEach((boton, indice) => {
   //   if (
   //     estadoJuego.secuenciaJuego[indice] == estadoJuego.secuenciaUsuario[indice]
@@ -65,6 +64,7 @@ const clickBoton = (botonPresionado) => {
   //   }
   // });
 
+  estadoJuego.secuenciaUsuario.push(botonPresionado);
 };
 
 const obtenerElementoAleatorio = () => {
@@ -72,18 +72,20 @@ const obtenerElementoAleatorio = () => {
    * Función de calculo de id aleatorio
    * 1) Calcular un elemento aleatorio para agregar a la secuencia
    */
-  const numeroAleatorio = Math.floor(Math.random() * 4);
-  return numeroAleatorio;
+  const opcionesIds = Object.keys(estadoJuego.opciones);
+  const numeroAleatorio = Math.floor(Math.random() * opcionesIds.length);
+  const elemento = opcionesIds[numeroAleatorio];
+  reproducirSecuencia(elemento);
 };
 
-const reproducirSecuencia = () => {
+const reproducirSecuencia = (elemento) => {
   /**
    * Función de reproducción de secuencia
    * 1) Agregar un nuevo elemento aleatorio a la secuencia actual
    * 2) Definir un intervalo y reproducir la secuencia existente
    */
-
-  console.log("reproducirSecuencia");
+  estadoJuego.secuenciaJuego.push(elemento);
+  console.log(estadoJuego.secuenciaJuego);
 };
 
 const inicializacion = (nombreDelJugador) => {
@@ -109,12 +111,6 @@ function accionModalInicio() {
   inicializacion(nombreDelJugador);
 }
 
-const nombreDelJugador = document.getElementById("nombre_jugador");
-nombreDelJugador.addEventListener("keypress", (e) => {
-  if (e.keyCode == 13) {
-    accionModalInicio();
-  }
-});
 
 function contador() {
   const turnoTexto = document.getElementById("turno_texto");
@@ -129,3 +125,10 @@ function contador() {
 
   setInterval(intervalo);
 }
+
+
+nombreDelJugador.addEventListener("keypress", (e) => {
+  if (e.keyCode == 13) {
+    accionModalInicio();
+  }
+});
