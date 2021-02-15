@@ -1,276 +1,134 @@
-"use strict";
-/*
-// variables que no voy a modificar
-const namePlayer = "Johan";
-const buttonYellow = "Yellow";
-const buttonGreen = "Green";
-const buttonRed = "Red";
-const buttonBlue = "Blue";
+/**
+ * Variables de configuración del juego
+ */
 
-//variables dinamicas
-
-let levelSequence = 12;
-let levelUser = 7;
-let counter = 0;
-let buttonok = true;
-
-
-
-//alert("bienvenido " + prompt("dime tu nombre", ""));
-
-const codigoApp = null;
-const codigoScanner = undefined;
-if (1 == 2 - 2) {
-  alert("son iguales");
-} else {
-  alert("no son iguales");
-}
-for ( ; levelUser < levelSequence; levelUser++) {
-  if (levelUser % 2) {
-    alert("Encendido "+levelUser);
-  } else {
-    alert("Apagado "+levelUser);
+const opciones = {
+	top_left: {
+	  id: "top_left",
+	},
+	top_right: {
+	  id: "top_right",
+	},
+	bottom_left: {
+	  id: "bottom_left",
+	},
+	bottom_right: {
+	  id: "bottom_right",
+	},
+  };
+  
+  const estadoJuego = {
+	segundosInicio: 3,
+	interaciones: false,
+	secuenciaJuego: [],
+	secuenciaUsuario: [],
+	nivelJuego: 0,
+	nivelUsuario: 0,
+	opciones,
+  };
+  
+  /**
+   * Referencias del DOM
+   */
+  
+  const botonesDelJuego = document.querySelectorAll(".simon-button");
+  const nombreDelJugador = document.getElementById("nombre_jugador");
+  
+  /**
+   * Funciones de referencia
+   */
+  
+  const clickBoton = (botonPresionado) => {
+	/**
+	 * Evento click de los botones del juego
+	 * 1) Agregar el id que el usuario hizo click en la secuencia del usuario para validarla con la secuencia del juego
+	 * 2) Si el click es correcto, avanzar con el juego
+	 * 3) Si el click es incorrecto, game over
+	 * 4) Si el usuario hizo todos los clicks de la secuencia, avanzar al siguiente nivel
+	 */
+	// estadoJuego.secuenciaUsuario.push(botonPresionado);
+	// estadoJuego.secuenciaJuego.push(botonPresionado);
+	// let valorfinal=estadoJuego.secuenciaUsuario.length-1
+	// if(estadoJuego.secuenciaJuego[valorfinal]==estadoJuego.secuenciaUsuario[valorfinal]){
+	//   alert("todo ok")
+	// }else{
+	//   alert("jugar de nuevo")
+	// }
+	// estadoJuego.secuenciaUsuario.forEach((boton, indice) => {
+	//   if (
+	//     estadoJuego.secuenciaJuego[indice] == estadoJuego.secuenciaUsuario[indice]
+	//   ) {
+	//     alert("ok");
+	//   } else {
+	//     alert("mal");
+	//   }
+	// });
+  
+	estadoJuego.secuenciaUsuario.push(botonPresionado);
+  };
+  
+  const obtenerElementoAleatorio = () => {
+	/**
+	 * Función de calculo de id aleatorio
+	 * 1) Calcular un elemento aleatorio para agregar a la secuencia
+	 */
+	const opcionesIds = Object.keys(estadoJuego.opciones);
+	const numeroAleatorio = Math.floor(Math.random() * opcionesIds.length);
+	const elemento = opcionesIds[numeroAleatorio];
+	reproducirSecuencia(elemento);
+  };
+  
+  const reproducirSecuencia = (elemento) => {
+	/**
+	 * Función de reproducción de secuencia
+	 * 1) Agregar un nuevo elemento aleatorio a la secuencia actual
+	 * 2) Definir un intervalo y reproducir la secuencia existente
+	 */
+	estadoJuego.secuenciaJuego.push(elemento);
+	console.log(estadoJuego.secuenciaJuego);
+  };
+  
+  const inicializacion = (nombreDelJugador) => {
+	// Función de inicialización del juego
+	//1) Setear todas las variables por defecto para comenzar el juego
+	const nombreDelUsuario = document.getElementById("nombre_usuario");
+	const vistaDeJuego = document.getElementById("juego");
+	const pantallaDeInicio = document.getElementById("inicio_juego");
+  
+	//2) Quitar todos los modales y mostrar el juego
+	vistaDeJuego.setAttribute("class", "game");
+	pantallaDeInicio.setAttribute("class", "hide");
+	nombreDelUsuario.textContent = nombreDelJugador;
+  
+	//3) Mostrar y ejecutar un contador que de comienzo a la reproducción de la secuencia
+	contador();
+	obtenerElementoAleatorio();
+  };
+  
+  function accionModalInicio() {
+	const nombreDelJugador = document.getElementById("nombre_jugador").value;
+	localStorage.setItem("Jugador", nombreDelJugador);
+	inicializacion(nombreDelJugador);
   }
-}
-
-let levelGame = 12;
-let levelUser = 7;
-let buttonOk = true;
-
-if (levelUser === levelGame) {
-  //siguiente secuencia
-}
-
-if (buttonOk) {
-  //Continue
-} else {
-  //looser
-}
-
-
-let diasPorMes = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-let mes = prompt("inserte mes", "");
-
-switch (mes) {
-  case "enero":
-    alert(`este mes tiene ${diasPorMes[0]}`);
-    break;
-  case "febrero":
-    alert(`este mes tiene ${diasPorMes[1]}`);
-    break;
-  case "marzo":
-    alert(`este mes tiene ${diasPorMes[2]}`);
-    break;
-  case "abril":
-    alert(`este mes tiene ${diasPorMes[3]}`);
-    break;
-  case "mayo":
-    alert(`este mes tiene ${diasPorMes[4]}`);
-    break;
-  case "junio":
-    alert(`este mes tiene ${diasPorMes[5]}`);
-    break;
-  case "julio":
-    alert(`este mes tiene ${diasPorMes[6]}`);
-    break;
-  case "agosto":
-    alert(`este mes tiene ${diasPorMes[7]}`);
-    break;
-  case "septiembre":
-    alert(`este mes tiene ${diasPorMes[8]}`);
-    break;
-  case "octubre":
-    alert(`este mes tiene ${diasPorMes[9]}`);
-    break;
-  case "noviembre":
-    alert(`este mes tiene ${diasPorMes[10]}`);
-    break;
-  case "diciembre":
-    alert(`este mes tiene ${diasPorMes[11]}`);
-    break;
-
-  default:
-    alert("No inserto un mes valido");
-    break;
-}
-
-
-
-let letter=prompt("Ingrese una letra","")
- 
-if(letter==="a"||letter==="e"||letter==="i"||letter==="o"||letter==="u"){
-    alert("la letra es vocal")
-}else{
-    alert("la letra no es una vocal")
-}
-
-
-let sueldo = 40000;
-let antiguedad = prompt("ingrese tiempo en la empresa", "");
-let newSueldo = 0;
-if (antiguedad >= 10) {
-  newSueldo = sueldo * 1.1;
-} else if (antiguedad < 10 && antiguedad >= 5) {
-  newSueldo = sueldo * 1.07;
-} else if (antiguedad < 5 && antiguedad >= 3) {
-  newSueldo = sueldo * 1.05;
-} else if (antiguedad < 3) {
-  newSueldo = sueldo * 1.03;
-}
-
-alert(`Su sueldo nuevo es: ${newSueldo}`);
-
-
-const accionUsuario = "red";
-
-switch (accionUsuario) {
-  case "red":
-    console.log(`El usuario hizo click en el boton ${accionUsuario}`);
-    break;
-  case "blue":
-    console.log(`El usuario hizo click en el boton ${accionUsuario}`);
-    break;
-  case "green":
-    console.log(`El usuario hizo click en el boton ${accionUsuario}`);
-    break;
-  case "yellow":
-    console.log(`El usuario hizo click en el boton ${accionUsuario}`);
-    break;
-  default:
-    break;
-}
-
-let secuencia = ["red", "blue", "yellow", "green"];
-const ids = ["red", "blue", "yellow", "green"];
-const elementoAleatorio = Math.floor(Math.random() * ids.length);
-secuencia.push(ids[elementoAleatorio]);
-alert(secuencia);
-
-let piramide = (cantidadDeNiveles) => {
-  let nivel = 0;
-  for (nivel; nivel < cantidadDeNiveles; nivel++) {
-    let texto = "";
-    let simbolos = 0;
-    let espacios = 1;
-
-    for (espacios; espacios <( cantidadDeNiveles - nivel); espacios++) {
-      texto = texto + " ";
-    }
-
-    for (simbolos; simbolos < nivel * 2 + 1; simbolos++) {
-      texto = texto + "*";
-    }
-    console.log(texto);
+  
+  
+  function contador() {
+	const turnoTexto = document.getElementById("turno_texto");
+	let intervalo = setInterval(() => {
+	  turnoTexto.textContent = estadoJuego.segundosInicio;
+	  estadoJuego.segundosInicio--;
+	  if (estadoJuego.segundosInicio == -1) {
+		clearInterval(intervalo);
+		turnoTexto.textContent = "";
+	  }
+	}, 1000);
+  
+	setInterval(intervalo);
   }
-};
-
-piramide(5);
-
-
-let secuencia = ["red", "blue", "yellow", "green"];
-secuencia.forEach(element => {
-  console.log(element)
-});
-
-
-
-const productos = [
-  { item: "pan", precio: "$ 200", anulado: false },
-  { item: "pan", precio: "$ 150", anulado: false },
-  { item: "pan", precio: "$ 180", anulado: false },
-  { item: "pan", precio: "$ 100", anulado: false },
-  { item: "pan", precio: "$ 120", anulado: false },
-  { item: "pan", precio: "$ 105", anulado: true },
-  { item: "pan", precio: "$ 150", anulado: true },
-];
-let acumulador = 0;
-
-for (let index = 0; index < productos.length; index++) {
-  let producto = productos[index];
-  if (producto.anulado == false) {
-    nombre = producto.precio.replace("$ ", "");
-    acumulador = acumulador + parseInt(nombre);
-  }
-}
-console.log(`el total de su compra es ${acumulador}`);
-
-
-let productos = [
-  { item: "pan", precio: "$ 200", anulado: false },
-  { item: "pan", precio: "$ 150", anulado: false },
-  { item: "pan", precio: "$ 180", anulado: false },
-  { item: "pan", precio: "$ 100", anulado: false },
-  { item: "pan", precio: "$ 120", anulado: false },
-  { item: "pan", precio: "$ 105", anulado: true },
-  { item: "pan", precio: "$ 150", anulado: true },
-];
-
-let total = 0;
-
-for (let index = 0; index < productos.length; index++) {
-  let producto = productos[index];
-  if (!producto.anulado) {
-    const precio = parseInt(producto.precio.split(" ")[1]);
-    total += precio;
-  }
-}
-console.log(`el total de la compra es de ${total}`);
-
-let total = productos.filter((producto) => {
-    return !producto.anulado;
-  }).map((producto) => {
-    return parseInt(producto.precio.split(" ")[1]);
-  }).reduce((total, precio) => {
-    return total + precio;
+  
+  
+  nombreDelJugador.addEventListener("keypress", (e) => {
+	if (e.keyCode == 13) {
+	  accionModalInicio();
+	}
   });
-
-  console.log(total)
-
-const buttonYellow = document.getElementById("yellow");
-const buttonGreen = document.getElementById("green");
-const buttonRed = document.getElementById("red");
-const buttonBlue = document.getElementById("blue");
-let colores = [];
-
-buttonYellow.addEventListener("click", () => {
-  colores.push("yellow");
-  alert(colores);
-});
-
-buttonGreen.addEventListener("click", () => {
-  colores.push("Verde");
-  alert(colores);
-});
-
-buttonRed.addEventListener("click", () => {
-  colores.push("Rojo");
-  alert(colores);
-});
-
-buttonBlue.addEventListener("click", () => {
-  colores.push("Azul");
-  alert(colores);
-});
-*/
-
-const botones = document.querySelectorAll(".boton");
-let acumulador = [];
-
-botones.forEach((boton) => {
-  boton.addEventListener("click", () => {
-    if (boton.id !== "purple" && boton.id !== "orange") {
-      acumulador = localStorage.getItem("favoritos").split(",");
-      acumulador.push(boton.id);
-      alert(acumulador)
-      const c = acumulador.join(",");
-      alert(c);
-      localStorage.setItem("favoritos", c);
-    }
-  });
-});
-
-const resetear = document.getElementById("purple");
-
-resetear.addEventListener("click", () => {
-  localStorage.setItem("favoritos", "");
-});
