@@ -101,11 +101,12 @@ const reproducirSecuencia = (elemento) => {
   estadoJuego.secuenciaJuego.push(elemento);
 
   estadoJuego.secuenciaJuego.forEach((element) => {
-    activarElemento(obtenerElementoDom(element));
-    let intervalo = setInterval(() => {
-      desactivarElemento(obtenerElementoDom(element));
-    }, 5000);
-    setInterval(intervalo);
+    // let intervalo = setInterval(() => {
+    //   desactivarElemento(obtenerElementoDom(element));
+    // }, 1000);
+    // setInterval(intervalo);
+
+    secuen(element);
   });
 };
 
@@ -151,3 +152,24 @@ nombreDelJugador.addEventListener("keypress", (e) => {
     accionModalInicio();
   }
 });
+
+function secuen(valorDelArray) {
+  for (let index = 0; index < 2; index++) {
+    if (index == 0) {
+      let unintervalo = setInterval(() => {
+        activarElemento(obtenerElementoDom(valorDelArray));
+        clearInterval(unintervalo);
+      }, 1000);
+      setInterval(unintervalo);
+    } else {
+      let unintervalo = setInterval(() => {
+        desactivarElemento(obtenerElementoDom(valorDelArray));
+        clearInterval(unintervalo);
+      }, 2000);
+      setInterval(unintervalo);
+    }
+  }
+}
+
+
+
