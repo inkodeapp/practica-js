@@ -99,15 +99,11 @@ const reproducirSecuencia = (elemento) => {
    * 2) Definir un intervalo y reproducir la secuencia existente
    */
   estadoJuego.secuenciaJuego.push(elemento);
-
-  estadoJuego.secuenciaJuego.forEach((element) => {
-    // let intervalo = setInterval(() => {
-    //   desactivarElemento(obtenerElementoDom(element));
-    // }, 1000);
-    // setInterval(intervalo);
-
-    secuen(element);
-  });
+  // let intervalo = setInterval(() => {
+  //   desactivarElemento(obtenerElementoDom(element));
+  // }, 1000);
+  // setInterval(intervalo);
+  secuen(estadoJuego.secuenciaJuego);
 };
 
 const inicializacion = (nombreDelJugador) => {
@@ -154,22 +150,19 @@ nombreDelJugador.addEventListener("keypress", (e) => {
 });
 
 function secuen(valorDelArray) {
-  for (let index = 0; index < 2; index++) {
-    if (index == 0) {
-      let unintervalo = setInterval(() => {
-        activarElemento(obtenerElementoDom(valorDelArray));
-        clearInterval(unintervalo);
-      }, 1000);
-      setInterval(unintervalo);
-    } else {
-      let unintervalo = setInterval(() => {
-        desactivarElemento(obtenerElementoDom(valorDelArray));
-        clearInterval(unintervalo);
-      }, 2000);
-      setInterval(unintervalo);
+  let i = 0;
+  let efe=0;
+  let intervalo = setInterval(() => {
+    if (i < valorDelArray.length) {
+      activarElemento(obtenerElementoDom(valorDelArray[i]));
+      i++;
+      efe++
+    } else if(efe==1) {
+      desactivarElemento(obtenerElementoDom(valorDelArray[i-1]));
+      e--
     }
-  }
+
+    clearInterval(intervalo);
+  }, 500);
+  setInterval(intervalo);
 }
-
-
-
