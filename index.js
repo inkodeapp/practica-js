@@ -151,18 +151,19 @@ nombreDelJugador.addEventListener("keypress", (e) => {
 
 function secuen(valorDelArray) {
   let i = 0;
-  let efe=0;
+  let efe = 0;
   let intervalo = setInterval(() => {
     if (i < valorDelArray.length) {
-      activarElemento(obtenerElementoDom(valorDelArray[i]));
-      i++;
-      efe++
-    } else if(efe==1) {
-      desactivarElemento(obtenerElementoDom(valorDelArray[i-1]));
-      e--
+      if (i == efe) {
+        activarElemento(obtenerElementoDom(valorDelArray[i]));
+        efe++;
+      } else {
+        desactivarElemento(obtenerElementoDom(valorDelArray[i]));
+        i++;
+      }
+    } else {
+      clearInterval(intervalo);
     }
-
-    clearInterval(intervalo);
   }, 500);
   setInterval(intervalo);
 }
