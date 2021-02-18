@@ -71,14 +71,17 @@ const clickBoton = (botonPresionado) => {
     if (
       estadoJuego.secuenciaJuego[indice] == estadoJuego.secuenciaUsuario[indice]
     ) {
-      console.log(estadoJuego.secuenciaJuego[indice]);
-      console.log(estadoJuego.secuenciaUsuario[indice]);
     } else {
-      console.log("Volver a jugar	");
+      alert("repetir");
+      estadoJuego.secuenciaJuego=[]
+      estadoJuego.secuenciaUsuario=[]
     }
   });
 
-  obtenerElementoAleatorio();
+  if(estadoJuego.secuenciaJuego.length==estadoJuego.secuenciaUsuario.length){
+    obtenerElementoAleatorio();
+  }
+  
 };
 
 const obtenerElementoAleatorio = () => {
@@ -103,7 +106,7 @@ const reproducirSecuencia = (elemento) => {
   //   desactivarElemento(obtenerElementoDom(element));
   // }, 1000);
   // setInterval(intervalo);
-  secuen(estadoJuego.secuenciaJuego);
+  ejecutarSecuencia(estadoJuego.secuenciaJuego);
 };
 
 const inicializacion = (nombreDelJugador) => {
@@ -149,7 +152,7 @@ nombreDelJugador.addEventListener("keypress", (e) => {
   }
 });
 
-function secuen(valorDelArray) {
+function ejecutarSecuencia(valorDelArray) {
   let i = 0;
   let efe = 0;
   let intervalo = setInterval(() => {
@@ -164,6 +167,6 @@ function secuen(valorDelArray) {
     } else {
       clearInterval(intervalo);
     }
-  }, 500);
+  }, 1000);
   setInterval(intervalo);
 }
