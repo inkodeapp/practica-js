@@ -58,30 +58,25 @@ const clickBoton = (botonPresionado) => {
    * 4) Si el usuario hizo todos los clicks de la secuencia, avanzar al siguiente nivel
    */
 
-  //   if(estadoJuego.secuenciaJuego[valorfinal]==estadoJuego.secuenciaUsuario[valorfinal]){
-  //     alert("todo ok")
-  //   }else{
-  //     alert("jugar de nuevo")
-  //   }
-
   estadoJuego.secuenciaUsuario.push(botonPresionado);
-  let valorfinal = estadoJuego.secuenciaUsuario.length - 1;
-
+  let siguienteronda;
   estadoJuego.secuenciaUsuario.forEach((boton, indice) => {
     if (
       estadoJuego.secuenciaJuego[indice] == estadoJuego.secuenciaUsuario[indice]
     ) {
+      siguienteronda =
+        estadoJuego.secuenciaUsuario.length ==
+        estadoJuego.secuenciaJuego.length;
     } else {
-      alert("repetir");
-      estadoJuego.secuenciaJuego=[]
-      estadoJuego.secuenciaUsuario=[]
+      estadoJuego.secuenciaJuego = [];
+      estadoJuego.secuenciaUsuario = [];
+      alert("Game Over");
     }
   });
-
-  if(estadoJuego.secuenciaJuego.length==estadoJuego.secuenciaUsuario.length){
+  if (siguienteronda) {
     obtenerElementoAleatorio();
+    estadoJuego.secuenciaUsuario = [];
   }
-  
 };
 
 const obtenerElementoAleatorio = () => {
