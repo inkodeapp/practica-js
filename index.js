@@ -50,6 +50,9 @@ const desactivarElemento = (elementoDOM) => {
 };
 
 const clickBoton = (botonPresionado) => {
+  if (!estadoJuego.interaciones) {
+    return;
+  }
   /**
    * Evento click de los botones del juego
    * 1) Agregar el id que el usuario hizo click en la secuencia del usuario para validarla con la secuencia del juego
@@ -80,6 +83,7 @@ const clickBoton = (botonPresionado) => {
 };
 
 const obtenerElementoAleatorio = () => {
+  estadoJuego.interaciones = false;
   /**
    * Función de calculo de id aleatorio
    * 1) Calcular un elemento aleatorio para agregar a la secuencia
@@ -118,7 +122,6 @@ const inicializacion = (nombreDelJugador) => {
 
   //3) Mostrar y ejecutar un contador que de comienzo a la reproducción de la secuencia
   contador();
-  obtenerElementoAleatorio();
 };
 
 function accionModalInicio() {
@@ -135,9 +138,9 @@ function contador() {
     if (estadoJuego.segundosInicio == -1) {
       clearInterval(intervalo);
       turnoTexto.textContent = "";
+      obtenerElementoAleatorio();
     }
   }, 1000);
-
   setInterval(intervalo);
 }
 
@@ -164,4 +167,6 @@ function ejecutarSecuencia(valorDelArray) {
     }
   }, 1000);
   setInterval(intervalo);
+
+  estadoJuego.interaciones = true;
 }
