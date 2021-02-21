@@ -33,6 +33,9 @@ const estadoJuego = {
 
 const botonesDelJuego = document.querySelectorAll(".simon-button");
 const nombreDelJugador = document.getElementById("nombre_jugador");
+const vistaDeJuego = document.getElementById("juego");
+const pantallaDeInicio = document.getElementById("inicio_juego");
+const pantallaDeFin = document.getElementById("fin_juego");
 
 /**
  * Funciones de referencia
@@ -52,6 +55,8 @@ const desactivarElemento = (elementoDOM) => {
 const clickBoton = (botonPresionado) => {
   if (!estadoJuego.interaciones) {
     return;
+  } else {
+    estadoJuego.secuenciaUsuario.push(botonPresionado);
   }
   /**
    * Evento click de los botones del juego
@@ -61,33 +66,33 @@ const clickBoton = (botonPresionado) => {
    * 4) Si el usuario hizo todos los clicks de la secuencia, avanzar al siguiente nivel
    */
 
-  estadoJuego.secuenciaUsuario.push(botonPresionado);
-  let siguienteronda;
+  let siguienteRonda;
   estadoJuego.secuenciaUsuario.forEach((boton, indice) => {
     if (
       estadoJuego.secuenciaJuego[indice] == estadoJuego.secuenciaUsuario[indice]
     ) {
-      siguienteronda =
+      siguienteRonda =
         estadoJuego.secuenciaUsuario.length ==
         estadoJuego.secuenciaJuego.length;
     } else {
-      estadoJuego.secuenciaJuego = [];
-      estadoJuego.secuenciaUsuario = [];
-      alert("Game Over");
+      gameOver();
     }
   });
-  if (siguienteronda) {
+  if (siguienteRonda) {
+    estadoJuego.interaciones = false;
     obtenerElementoAleatorio();
     estadoJuego.secuenciaUsuario = [];
   }
 };
 
 const obtenerElementoAleatorio = () => {
-  estadoJuego.interaciones = false;
   /**
    * Función de calculo de id aleatorio
    * 1) Calcular un elemento aleatorio para agregar a la secuencia
    */
+
+  estadoJuego.nivelJuego++;
+  turnoTexto.textContent = `Nivel: ${estadoJuego.nivelJuego}`;
   const opcionesIds = Object.keys(estadoJuego.opciones);
   const numeroAleatorio = Math.floor(Math.random() * opcionesIds.length);
   const elemento = opcionesIds[numeroAleatorio];
@@ -101,43 +106,42 @@ const reproducirSecuencia = (elemento) => {
    * 2) Definir un intervalo y reproducir la secuencia existente
    */
   estadoJuego.secuenciaJuego.push(elemento);
-  // let intervalo = setInterval(() => {
-  //   desactivarElemento(obtenerElementoDom(element));
-  // }, 1000);
-  // setInterval(intervalo);
   ejecutarSecuencia(estadoJuego.secuenciaJuego);
 };
 
-const inicializacion = (nombreDelJugador) => {
+const inicializacion = () => {
   // Función de inicialización del juego
   //1) Setear todas las variables por defecto para comenzar el juego
+
+  estadoJuego.segundosInicio = 3;
+  estadoJuego.interaciones = false;
+  estadoJuego.secuenciaJuego = [];
+  estadoJuego.secuenciaUsuario = [];
+  estadoJuego.nivelJuego = 0;
+  estadoJuego.nivelUsuario = 0;
   const nombreDelUsuario = document.getElementById("nombre_usuario");
-  const vistaDeJuego = document.getElementById("juego");
-  const pantallaDeInicio = document.getElementById("inicio_juego");
 
   //2) Quitar todos los modales y mostrar el juego
   vistaDeJuego.setAttribute("class", "game");
   pantallaDeInicio.setAttribute("class", "hide");
-  nombreDelUsuario.textContent = nombreDelJugador;
+  nombreDelUsuario.textContent = localStorage.getItem("Jugador").toUpperCase();
 
   //3) Mostrar y ejecutar un contador que de comienzo a la reproducción de la secuencia
   contador();
 };
 
 function accionModalInicio() {
-  const nombreDelJugador = document.getElementById("nombre_jugador").value;
+  const nombreDelJugador = obtenerElementoDom("nombre_jugador").value;
   localStorage.setItem("Jugador", nombreDelJugador);
-  inicializacion(nombreDelJugador);
+  inicializacion();
 }
 
 function contador() {
-  const turnoTexto = document.getElementById("turno_texto");
   let intervalo = setInterval(() => {
     turnoTexto.textContent = estadoJuego.segundosInicio;
     estadoJuego.segundosInicio--;
     if (estadoJuego.segundosInicio == -1) {
       clearInterval(intervalo);
-      turnoTexto.textContent = "";
       obtenerElementoAleatorio();
     }
   }, 1000);
@@ -164,9 +168,29 @@ function ejecutarSecuencia(valorDelArray) {
       }
     } else {
       clearInterval(intervalo);
+      estadoJuego.interaciones = true;
     }
   }, 1000);
   setInterval(intervalo);
-
-  estadoJuego.interaciones = true;
 }
+
+const gameOver = () => {
+  vistaDeJuego.setAttribute("class", "hide");
+  pantallaDeFin.setAttribute("class", "modal-container");
+  const puntajeDom = obtenerElementoDom("puntaje");
+  puntajeDom.textContent = `Tu puntaje es ${estadoJuego.nivelJuego}`;
+  estadoJuego.segundosInicio = 3;
+  estadoJuego.interaciones = false;
+  estadoJuego.secuenciaJuego = [];
+  estadoJuego.secuenciaUsuario = [];
+  estadoJuego.nivelJuego = 0;
+  estadoJuego.nivelUsuario = 0;
+};
+
+function accionModalFin() {
+  vistaDeJuego.setAttribute("class", "game");
+  pantallaDeFin.setAttribute("class", "hide");
+  inicializacion();
+}
+
+const turnoTexto = obtenerElementoDom("turno_texto");
