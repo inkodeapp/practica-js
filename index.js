@@ -35,7 +35,7 @@ const botonesDelJuego = document.querySelectorAll(".simon-button");
 const nombreDelJugador = document.getElementById("nombre_jugador");
 const vistaDeJuego = document.getElementById("juego");
 const pantallaDeInicio = document.getElementById("inicio_juego");
-const pantallaDeFin = document.getElementById("fin_juego");
+const pantallaDeFinal = document.getElementById("fin_juego");
 
 /**
  * Funciones de referencia
@@ -113,18 +113,19 @@ const inicializacion = () => {
   // Función de inicialización del juego
   //1) Setear todas las variables por defecto para comenzar el juego
 
-  estadoJuego.segundosInicio = 3;
   estadoJuego.interaciones = false;
   estadoJuego.secuenciaJuego = [];
   estadoJuego.secuenciaUsuario = [];
-  estadoJuego.nivelJuego = 0;
+  estadoJuego.nivelJuego = 0; 
   estadoJuego.nivelUsuario = 0;
   const nombreDelUsuario = document.getElementById("nombre_usuario");
 
   //2) Quitar todos los modales y mostrar el juego
   vistaDeJuego.setAttribute("class", "game");
   pantallaDeInicio.setAttribute("class", "hide");
-  nombreDelUsuario.textContent = localStorage.getItem("Jugador").toUpperCase();
+  let nombreJugador=localStorage.getItem("Jugador");
+  nombreJugador=nombreJugador[0].toLocaleUpperCase()+nombreJugador.slice(1)
+  nombreDelUsuario.textContent = nombreJugador;
 
   //3) Mostrar y ejecutar un contador que de comienzo a la reproducción de la secuencia
   contador();
@@ -132,15 +133,22 @@ const inicializacion = () => {
 
 function accionModalInicio() {
   const nombreDelJugador = obtenerElementoDom("nombre_jugador").value;
-  localStorage.setItem("Jugador", nombreDelJugador);
-  inicializacion();
+  if (nombreDelJugador) {
+    localStorage.setItem("Jugador", nombreDelJugador);
+    inicializacion();
+  } else {
+    alert("Debe ingresar un nombre");
+  }
 }
 
 function contador() {
+  //1) Variable de segundos del contador
+  let tiempo = estadoJuego.segundosInicio;
+  //2) Declarar el intervalo
   let intervalo = setInterval(() => {
-    turnoTexto.textContent = estadoJuego.segundosInicio;
-    estadoJuego.segundosInicio--;
-    if (estadoJuego.segundosInicio == -1) {
+    turnoTexto.textContent = tiempo;
+    tiempo--;
+    if (tiempo == -1) {
       clearInterval(intervalo);
       obtenerElementoAleatorio();
     }
@@ -148,6 +156,7 @@ function contador() {
   setInterval(intervalo);
 }
 
+// Establecer comportamiento al presionar intro
 nombreDelJugador.addEventListener("keypress", (e) => {
   if (e.keyCode == 13) {
     accionModalInicio();
@@ -155,16 +164,17 @@ nombreDelJugador.addEventListener("keypress", (e) => {
 });
 
 function ejecutarSecuencia(valorDelArray) {
-  let i = 0;
-  let efe = 0;
+  //declarar estados del encendido y apagado
+  let elementoOn = 0;
+  let elementoOff = 0;
   let intervalo = setInterval(() => {
-    if (i < valorDelArray.length) {
-      if (i == efe) {
-        activarElemento(obtenerElementoDom(valorDelArray[i]));
-        efe++;
+    if (elementoOn < valorDelArray.length) {
+      if (elementoOn == elementoOff) {
+        activarElemento(obtenerElementoDom(valorDelArray[elementoOn]));
+        elementoOff++;
       } else {
-        desactivarElemento(obtenerElementoDom(valorDelArray[i]));
-        i++;
+        desactivarElemento(obtenerElementoDom(valorDelArray[elementoOn]));
+        elementoOn++;
       }
     } else {
       clearInterval(intervalo);
@@ -176,10 +186,9 @@ function ejecutarSecuencia(valorDelArray) {
 
 const gameOver = () => {
   vistaDeJuego.setAttribute("class", "hide");
-  pantallaDeFin.setAttribute("class", "modal-container");
+  pantallaDeFinal.setAttribute("class", "modal-container");
   const puntajeDom = obtenerElementoDom("puntaje");
   puntajeDom.textContent = `Tu puntaje es ${estadoJuego.nivelJuego}`;
-  estadoJuego.segundosInicio = 3;
   estadoJuego.interaciones = false;
   estadoJuego.secuenciaJuego = [];
   estadoJuego.secuenciaUsuario = [];
@@ -189,7 +198,7 @@ const gameOver = () => {
 
 function accionModalFin() {
   vistaDeJuego.setAttribute("class", "game");
-  pantallaDeFin.setAttribute("class", "hide");
+  pantallaDeFinal.setAttribute("class", "hide");
   inicializacion();
 }
 
