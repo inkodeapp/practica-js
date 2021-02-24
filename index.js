@@ -56,17 +56,12 @@ const clickBoton = (botonPresionado) => {
   if (!estadoJuego.interaciones) {
     return;
   } else {
+    // 1) Agregar el id que el usuario hizo click en la secuencia del usuario para validarla con la secuencia del juego
     estadoJuego.secuenciaUsuario.push(botonPresionado);
   }
-  /**
-   * Evento click de los botones del juego
-   * 1) Agregar el id que el usuario hizo click en la secuencia del usuario para validarla con la secuencia del juego
-   * 2) Si el click es correcto, avanzar con el juego
-   * 3) Si el click es incorrecto, game over
-   * 4) Si el usuario hizo todos los clicks de la secuencia, avanzar al siguiente nivel
-   */
-
   let siguienteRonda;
+  //2) Si el click es correcto, avanzar con el juego
+  //3) Si el click es incorrecto, game over
   estadoJuego.secuenciaUsuario.forEach((boton, indice) => {
     if (
       estadoJuego.secuenciaJuego[indice] == estadoJuego.secuenciaUsuario[indice]
@@ -78,6 +73,8 @@ const clickBoton = (botonPresionado) => {
       gameOver();
     }
   });
+
+  //4) Si el usuario hizo todos los clicks de la secuencia, avanzar al siguiente nivel
   if (siguienteRonda) {
     estadoJuego.interaciones = false;
     obtenerElementoAleatorio();
@@ -95,17 +92,17 @@ const obtenerElementoAleatorio = () => {
   turnoTexto.textContent = `Nivel: ${estadoJuego.nivelJuego}`;
   const opcionesIds = Object.keys(estadoJuego.opciones);
   const numeroAleatorio = Math.floor(Math.random() * opcionesIds.length);
-  const elemento = opcionesIds[numeroAleatorio];
-  reproducirSecuencia(elemento);
+  const elementoAleatorio = opcionesIds[numeroAleatorio];
+  reproducirSecuencia(elementoAleatorio);
 };
 
-const reproducirSecuencia = (elemento) => {
+const reproducirSecuencia = (elementoAleatorio) => {
   /**
    * Función de reproducción de secuencia
    * 1) Agregar un nuevo elemento aleatorio a la secuencia actual
    * 2) Definir un intervalo y reproducir la secuencia existente
    */
-  estadoJuego.secuenciaJuego.push(elemento);
+  estadoJuego.secuenciaJuego.push(elementoAleatorio);
   ejecutarSecuencia(estadoJuego.secuenciaJuego);
 };
 
@@ -116,21 +113,22 @@ const inicializacion = () => {
   estadoJuego.interaciones = false;
   estadoJuego.secuenciaJuego = [];
   estadoJuego.secuenciaUsuario = [];
-  estadoJuego.nivelJuego = 0; 
+  estadoJuego.nivelJuego = 0;
   estadoJuego.nivelUsuario = 0;
   const nombreDelUsuario = document.getElementById("nombre_usuario");
 
   //2) Quitar todos los modales y mostrar el juego
   vistaDeJuego.setAttribute("class", "game");
   pantallaDeInicio.setAttribute("class", "hide");
-  let nombreJugador=localStorage.getItem("Jugador");
-  nombreJugador=nombreJugador[0].toLocaleUpperCase()+nombreJugador.slice(1)
+  let nombreJugador = localStorage.getItem("Jugador");
+  nombreJugador = nombreJugador[0].toLocaleUpperCase() + nombreJugador.slice(1);
   nombreDelUsuario.textContent = nombreJugador;
 
   //3) Mostrar y ejecutar un contador que de comienzo a la reproducción de la secuencia
   contador();
 };
 
+// Validacion de campo de usuario para iniciar el juego
 function accionModalInicio() {
   const nombreDelJugador = obtenerElementoDom("nombre_jugador").value;
   if (nombreDelJugador) {
@@ -163,8 +161,9 @@ nombreDelJugador.addEventListener("keypress", (e) => {
   }
 });
 
+
 function ejecutarSecuencia(valorDelArray) {
-  //declarar estados del encendido y apagado
+  //Declarar estados del encendido y apagado
   let elementoOn = 0;
   let elementoOff = 0;
   let intervalo = setInterval(() => {
@@ -184,21 +183,23 @@ function ejecutarSecuencia(valorDelArray) {
   setInterval(intervalo);
 }
 
+//1) Ocultar vista de juego
+//2) Mostrar modal de fin de juego y puntaje
+
 const gameOver = () => {
   vistaDeJuego.setAttribute("class", "hide");
   pantallaDeFinal.setAttribute("class", "modal-container");
   const puntajeDom = obtenerElementoDom("puntaje");
   puntajeDom.textContent = `Tu puntaje es ${estadoJuego.nivelJuego}`;
-  estadoJuego.interaciones = false;
-  estadoJuego.secuenciaJuego = [];
-  estadoJuego.secuenciaUsuario = [];
-  estadoJuego.nivelJuego = 0;
-  estadoJuego.nivelUsuario = 0;
 };
 
+//1) ocultar modal de fin de juego
+//2) mostrar vista de juego
+//3) iniciar partida
+
 function accionModalFin() {
-  vistaDeJuego.setAttribute("class", "game");
   pantallaDeFinal.setAttribute("class", "hide");
+  vistaDeJuego.setAttribute("class", "game");
   inicializacion();
 }
 
